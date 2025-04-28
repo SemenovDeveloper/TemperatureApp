@@ -1,21 +1,15 @@
 package com.semenovdev.tempreature
 
 import android.os.Bundle
-import android.os.Handler
-import android.telecom.Call
-import android.util.Log
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import com.semenovdev.tempreature.databinding.ActivityMainBinding
-import javax.security.auth.callback.Callback
 import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
-    private val handler = Handler()
 
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
@@ -52,7 +46,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadCity(callback: (String) -> Unit) {
         thread {
             Thread.sleep(5000)
-            handler.post {
+            runOnUiThread {
                 callback("Moscow")
             }
         }
@@ -60,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadTemperature(city: String, callback: (Int) -> Unit) {
         thread {
-            handler.post {
+            runOnUiThread {
                 Toast.makeText(
                     this,
                     getString(R.string.loading_temperature_toast, city),
@@ -68,7 +62,7 @@ class MainActivity : AppCompatActivity() {
                 ).show()
             }
             Thread.sleep(5000)
-            handler.post {
+            runOnUiThread {
                 callback(17)
             }
         }
